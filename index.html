@@ -10,93 +10,46 @@
   <meta property="og:type" content="website" />
   <style>
     :root{
-  /* Magyar tematikus paletta — paradicsompiros / fehér / pázsitzöld
-     Közelítő HEX-ek a megadott Munsell/Pantone alapján */
-  --red:#CD212A;      /* 18-1660 „paradicsompiros” (approx.) */
-  --green:#1F7A4C;    /* 18-6320 „pázsitzöld” (approx.) */
-  --white:#FFFFFF;    /* WBE=100 fehér */
+      --bg:#0f1115;--panel:#151924;--muted:#9aa3b2;--text:#e9edf3;--accent:#76e4f7;--accent2:#b993ff;--ok:#41d6a3;--warn:#ffd166;--danger:#ff6b6b;
+      --radius:18px;--shadow:0 10px 30px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;background:linear-gradient(180deg,#0d1018 0%,#121826 60%,#0d1018 100%);color:var(--text);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial}
+    a{color:var(--accent);text-decoration:none}
+    a:hover{text-decoration:underline}
+    .container{max-width:1100px;margin-inline:auto;padding:24px}
+    header{display:grid;grid-template-columns:120px 1fr;gap:22px;align-items:center;margin:20px 0 12px}
+    .avatar{width:120px;height:120px;border-radius:50%;object-fit:cover;object-position:50% 30%;border:3px solid rgba(255,255,255,.08);box-shadow:var(--shadow)}
+    h1{font-size:clamp(28px,4vw,40px);margin:0}
+    .subtitle{color:var(--muted);margin-top:4px}
+    .chip{display:inline-flex;gap:8px;align-items:center;background:linear-gradient(135deg,rgba(118,228,247,.15),rgba(185,147,255,.12));border:1px solid rgba(255,255,255,.08);padding:6px 10px;border-radius:999px;font-size:14px}
+    .panel{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.08);border-radius:var(--radius);box-shadow:var(--shadow)}
+    .headline{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:28px 0 10px}
+    .headline h2{margin:0;font-size:clamp(22px,3vw,28px)}
 
-  /* UI alapszínek (dark theme, piros–zöld akcentekkel) */
-  --bg:#0d1016;
-  --panel:#151A22;
-  --muted:#A3ADBE;
-  --text:#F4F7FA;
+    .toolbar{display:flex;flex-wrap:wrap;gap:10px}
+    .input, .select{background:#0e1220;border:1px solid rgba(255,255,255,.12);color:var(--text);padding:10px 12px;border-radius:12px;outline:none}
+    .input::placeholder{color:#7d8698}
+    .btn{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#0b0f18;border:none;padding:10px 14px;border-radius:12px;font-weight:600;cursor:pointer}
+    .btn:hover{filter:brightness(1.05)}
 
-  /* akcentek */
-  --accent:var(--red);
-  --accent2:var(--green);
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+    .card{padding:18px}
+    .card h3{margin:0 0 6px;font-size:20px}
+    .meta{display:flex;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:14px}
+    .meta .dot::before{content:"•";margin:0 6px;color:#5b6477}
+    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+    .tag{font-size:12px;color:#cfe6ff;background:rgba(118,228,247,.15);border:1px solid rgba(118,228,247,.35);padding:4px 8px;border-radius:999px}
+    .soldout{background:rgba(255,107,107,.12);border-color:rgba(255,107,107,.4);color:#ffd7d7}
 
-  --ok:#37C08B;
-  --warn:#FFD166;
-  --danger:#FF6B6B;
-  --radius:18px;
-  --shadow:0 10px 30px rgba(0,0,0,.35);
-}
+    details summary{cursor:pointer;list-style:none}
+    details summary::-webkit-details-marker{display:none}
+    details summary .caret{display:inline-block;transition:.2s transform}
+    details[open] summary .caret{transform:rotate(90deg)}
 
-/* háttér + globál */
-html,body{
-  margin:0;
-  background:linear-gradient(180deg,#0b0f15 0%,#121826 55%,#0b0f15 100%);
-  color:var(--text);
-  font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial
-}
-a{
-  color:var(--accent);
-  text-decoration:underline dotted 1px rgba(205,33,42,.6);
-}
-
-/* címek: finom piros–zöld átmenet */
-h1{
-  font-size:clamp(28px,4vw,40px);
-  margin:0;
-  background:linear-gradient(90deg,var(--accent) 0%, var(--accent2) 80%);
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
-}
-
-/* chip, gombok, tagek a palettával */
-.chip{
-  display:inline-flex;gap:8px;align-items:center;
-  background:linear-gradient(135deg,rgba(205,33,42,.18),rgba(31,122,76,.16));
-  border:1px solid rgba(255,255,255,.12);
-  padding:6px 10px;border-radius:999px;font-size:14px
-}
-
-.btn{
-  background:linear-gradient(135deg,var(--accent),var(--accent2));
-  color:#0b0f18;border:none;padding:10px 14px;border-radius:12px;
-  font-weight:700;cursor:pointer;letter-spacing:.2px
-}
-.btn:hover{filter:brightness(1.05)}
-
-.tag{
-  font-size:12px;color:var(--white);
-  background:rgba(205,33,42,.16);
-  border:1px solid rgba(205,33,42,.45);
-  padding:4px 8px;border-radius:999px
-}
-.soldout{
-  background:rgba(205,33,42,.18);
-  border-color:rgba(205,33,42,.55);
-  color:#FFD2D2
-}
-
-/* kártyák */
-.panel{
-  background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:var(--radius);
-  box-shadow:var(--shadow)
-}
-
-/* videó lejátszás gomb színei is igazodnak */
-.video-thumb .play{
-  position:absolute;left:10px;bottom:10px;
-  background:linear-gradient(135deg,var(--accent),var(--accent2));
-  color:#0b0f18;border:none;border-radius:999px;
-  padding:8px 12px;font-weight:700;cursor:pointer
-}
+    footer{margin:36px 0 12px;color:var(--muted);text-align:center}
+    .small{font-size:13px}
+  .video-grid{}.video-card h3{font-size:16px;margin:10px 0 0}.video-thumb{position:relative;border-radius:var(--radius);overflow:hidden;aspect-ratio:16/9;background:#0e1220;border:1px solid rgba(255,255,255,.08)}.video-thumb img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(1.05)}.video-thumb .play{position:absolute;left:10px;bottom:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#0b0f18;border:none;border-radius:999px;padding:8px 12px;font-weight:700;cursor:pointer}.iframe-wrap iframe{width:100%;height:100%;border:0}
   </style>
 </head>
 <body>
@@ -216,11 +169,6 @@ h1{
             <button class="play" type="button">▶ Lejátszás</button>
           </div>
           ${v.title ? `<h3>${v.title}</h3>` : ''}
-        </article>`;
-    }">
-            <img src="https://img.youtube.com/vi/${v.id}/hqdefault.jpg" alt="YouTube videó előnézete" />
-            <button class="play" type="button">▶ Lejátszás</button>
-          </div>
         </article>`;
     }
 
