@@ -174,14 +174,38 @@
           </div>
         </article>`;
     }
-
+ /* --- FRISSÍTETT RENDER: kereső + város szűrő --- */
     function render(){
+      const q = $('#search').value.toLowerCase().trim();
+      const city = $('#city').value;
       const now = new Date();
-      const upcoming = EVENTS.filter(ev => new Date(ev.datetime) >= now).sort((a,b)=> new Date(a.datetime) - new Date(b.datetime));
+
+      const filtered = EVENTS.filter(ev=>{
+        const hay = [ev.title, ev.city, ev.venue, ev.address, ev.note]
+          .filter(Boolean).join(' ').toLowerCase();
+        const matchQ = q ? hay.includes(q) : true;
+        const matchCity = city ? ev.city === city : true;
+        return matchQ && matchCity;
+      }).sort((a,b)=> new Date(a.datetime) - new Date(b.datetime));
+
+      const upcoming = filtered.filter(ev => new Date(ev.datetime) >= now);
       $('#upcoming').innerHTML = upcoming.map(buildCard).join('');
       $('#upcomingEmpty').style.display = upcoming.length ? 'none' : 'block';
     }
 
+    /* --- ÚJ: városlista feltöltése az EVENTS alapján --- */
+    function fillCities(){
+      const cities = Array.from(new Set(EVENTS.map(e=>e.city)))
+        .filter(Boolean)
+        .sort((a,b)=>a.localeCompare(b,'hu'));
+      const sel = document.querySelector('#city');
+      sel.innerHTML = '<option value="">Városok</option>';
+      cities.forEach(c=>{
+        const o = document.createElement('option');
+        o.value = c; o.textContent = c;
+        sel.appendChild(o);
+      });
+    }
     // Videó kártyák és lejátszás
     function videoCard(v){
       return `
@@ -207,8 +231,18 @@
     }
 
     $('#year').textContent = new Date().getFullYear();
+    fillCities();
     render();
     renderVideos();
+    
+    // Interakciók bekötése
+    document.querySelector('#search').addEventListener('input', render);
+    document.querySelector('#city').addEventListener('change', render);
+    document.querySelector('#resetBtn').addEventListener('click', ()=>{
+      document.querySelector('#search').value = '';
+      document.querySelector('#city').value = '';
+      render();
+    });
   </script>
 </body>
 </html>
