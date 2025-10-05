@@ -1,191 +1,88 @@
-<!doctype html>
-<html lang="hu">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>🎵 Botos Veronika – Koncertek</title>
-  <meta name="description" content="Legújabb koncertek, helyszínek és jegylinkek." />
-  <meta property="og:title" content="Botos Veronika – Koncertek" />
-  <meta property="og:description" content="Legújabb koncertek, helyszínek és jegylinkek." />
-  <meta property="og:type" content="website" />
-  <style>
-    :root{
-      --bg:#0f1115;--panel:#151924;--muted:#9aa3b2;--text:#e9edf3;--accent:#76e4f7;--accent2:#b993ff;--ok:#41d6a3;--warn:#ffd166;--danger:#ff6b6b;
-      --radius:18px;--shadow:0 10px 30px rgba(0,0,0,.35);
-    }
-    *{box-sizing:border-box}
-    html,body{margin:0;background:linear-gradient(180deg,#0d1018 0%,#121826 60%,#0d1018 100%);color:var(--text);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial}
-    a{color:var(--accent);text-decoration:none}
-    a:hover{text-decoration:underline}
-    .container{max-width:1100px;margin-inline:auto;padding:24px}
-    header{display:grid;grid-template-columns:120px 1fr;gap:22px;align-items:center;margin:20px 0 12px}
-    .avatar{width:120px;height:120px;border-radius:50%;object-fit:cover;object-position:50% 30%;border:3px solid rgba(255,255,255,.08);box-shadow:var(--shadow)}
-    h1{font-size:clamp(28px,4vw,40px);margin:0}
-    .subtitle{color:var(--muted);margin-top:4px}
-    .chip{display:inline-flex;gap:8px;align-items:center;background:linear-gradient(135deg,rgba(118,228,247,.15),rgba(185,147,255,.12));border:1px solid rgba(255,255,255,.08);padding:6px 10px;border-radius:999px;font-size:14px}
-    .panel{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.08);border-radius:var(--radius);box-shadow:var(--shadow)}
-    .headline{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:28px 0 10px}
-    .headline h2{margin:0;font-size:clamp(22px,3vw,28px)}
+:root{
+  /* Magyar tematikus paletta — paradicsompiros / fehér / pázsitzöld
+     Közelítő HEX-ek a megadott Munsell/Pantone alapján */
+  --red:#CD212A;      /* 18-1660 „paradicsompiros” (approx.) */
+  --green:#1F7A4C;    /* 18-6320 „pázsitzöld” (approx.) */
+  --white:#FFFFFF;    /* WBE=100 fehér */
 
-    .toolbar{display:flex;flex-wrap:wrap;gap:10px}
-    .input, .select{background:#0e1220;border:1px solid rgba(255,255,255,.12);color:var(--text);padding:10px 12px;border-radius:12px;outline:none}
-    .input::placeholder{color:#7d8698}
-    .btn{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#0b0f18;border:none;padding:10px 14px;border-radius:12px;font-weight:600;cursor:pointer}
-    .btn:hover{filter:brightness(1.05)}
+  /* UI alapszínek (dark theme, piros–zöld akcentekkel) */
+  --bg:#0d1016;
+  --panel:#151A22;
+  --muted:#A3ADBE;
+  --text:#F4F7FA;
 
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
-    .card{padding:18px}
-    .card h3{margin:0 0 6px;font-size:20px}
-    .meta{display:flex;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:14px}
-    .meta .dot::before{content:"•";margin:0 6px;color:#5b6477}
-    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
-    .tag{font-size:12px;color:#cfe6ff;background:rgba(118,228,247,.15);border:1px solid rgba(118,228,247,.35);padding:4px 8px;border-radius:999px}
-    .soldout{background:rgba(255,107,107,.12);border-color:rgba(255,107,107,.4);color:#ffd7d7}
+  /* akcentek */
+  --accent:var(--red);
+  --accent2:var(--green);
 
-    details summary{cursor:pointer;list-style:none}
-    details summary::-webkit-details-marker{display:none}
-    details summary .caret{display:inline-block;transition:.2s transform}
-    details[open] summary .caret{transform:rotate(90deg)}
+  --ok:#37C08B;
+  --warn:#FFD166;
+  --danger:#FF6B6B;
+  --radius:18px;
+  --shadow:0 10px 30px rgba(0,0,0,.35);
+}
 
-    footer{margin:36px 0 12px;color:var(--muted);text-align:center}
-    .small{font-size:13px}
-  .video-grid{}.video-card h3{font-size:16px;margin:10px 0 0}.video-thumb{position:relative;border-radius:var(--radius);overflow:hidden;aspect-ratio:16/9;background:#0e1220;border:1px solid rgba(255,255,255,.08)}.video-thumb img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(1.05)}.video-thumb .play{position:absolute;left:10px;bottom:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#0b0f18;border:none;border-radius:999px;padding:8px 12px;font-weight:700;cursor:pointer}.iframe-wrap iframe{width:100%;height:100%;border:0}
-  </style>
-</head>
-<body>
-  <div class="container">
-    <header>
-      <img class="avatar" src="portrait.jpg" alt="Botos Veronika portré" />
-      <div>
-        <h1>Botos Veronika</h1>
-        <div class="subtitle">mélyhegedűművész</div>
-        <div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap">
-          <span class="chip">🎙️ Legújabb koncertek</span>
-          <span class="chip">📬 Kapcsolat: <a href="mailto:vebotos@gmail.com">vebotos@gmail.com</a></span>
-        </div>
-      </div>
-    </header>
+/* háttér + globál */
+html,body{
+  margin:0;
+  background:linear-gradient(180deg,#0b0f15 0%,#121826 55%,#0b0f15 100%);
+  color:var(--text);
+  font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial
+}
+a{
+  color:var(--accent);
+  text-decoration:underline dotted 1px rgba(205,33,42,.6);
+}
 
-    <div class="headline">
-      <h2>Közelgő koncertek</h2>
-      <div class="toolbar">
-        <input id="search" class="input" placeholder="Keresés város, helyszín, cím alapján…" />
-        <select id="city" class="select">
-          <option value="">Városok</option>
-        </select>
-        <button id="resetBtn" class="btn" type="button">Szűrők törlése</button>
-      </div>
-    </div>
-    <section class="panel" style="padding:16px">
-      <div id="upcoming" class="grid"></div>
-      <p id="upcomingEmpty" class="small" style="display:none;color:var(--muted);margin:10px">Nincs közelgő koncert. Nézz vissza később!</p>
-    </section>
+/* címek: finom piros–zöld átmenet */
+h1{
+  font-size:clamp(28px,4vw,40px);
+  margin:0;
+  background:linear-gradient(90deg,var(--accent) 0%, var(--accent2) 80%);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
 
-    <div class="headline" style="margin-top:34px">
-      <h2>Videók</h2>
-    </div>
-    <section class="panel" style="padding:16px">
-      <div id="videos" class="grid video-grid"></div>
-    </section>
+/* chip, gombok, tagek a palettával */
+.chip{
+  display:inline-flex;gap:8px;align-items:center;
+  background:linear-gradient(135deg,rgba(205,33,42,.18),rgba(31,122,76,.16));
+  border:1px solid rgba(255,255,255,.12);
+  padding:6px 10px;border-radius:999px;font-size:14px
+}
 
-    <footer>
-      <div>© <span id="year"></span> Botos Veronika • Minden jog fenntartva.</div>
-    </footer>
-  </div>
+.btn{
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#0b0f18;border:none;padding:10px 14px;border-radius:12px;
+  font-weight:700;cursor:pointer;letter-spacing:.2px
+}
+.btn:hover{filter:brightness(1.05)}
 
-  <script>
-    const EVENTS = [
-      {
-        datetime: "2025-10-18T16:00", 
-        title: "Beszél Ön Zenéül?! – kamarakoncert", 
-        city: "Budapest", 
-        venue: "Zenetudományi Intézet, Díszterem",
-        address: "1014 Budapest, Táncsics Mihály utca 7.", 
-        tickets: "", 
-        url: "", 
-        note: "Sosztakovics: cselló–zongora szonáta, brácsa–zongora szonáta, filmzenei válogatás. Közreműködik: Botos Veronika – mélyhegedű, Karasszon Eszter – cselló, Vida Mónika Ruth – zongora, Csongár Péter – klarinét. A belépés ingyenes.", 
-        soldOut: false
-      }
-    ];
+.tag{
+  font-size:12px;color:var(--white);
+  background:rgba(205,33,42,.16);
+  border:1px solid rgba(205,33,42,.45);
+  padding:4px 8px;border-radius:999px
+}
+.soldout{
+  background:rgba(205,33,42,.18);
+  border-color:rgba(205,33,42,.55);
+  color:#FFD2D2
+}
 
-    const VIDEOS = [
-      { id: "783jRgpdqDs", title: "Video 1." },
-      { id: "XHvp0LXrq7I", title: "Video 2." },
-      { id: "AfzDTrcNVMQ", title: "Video 3." },
-      { id: "wlXDCIIh1nQ", title: "Video 4." },
-      { id: "zpTZvumrN9E", title: "Video 5." }
-    ];
+/* kártyák */
+.panel{
+  background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow)
+}
 
-    const TZ = "Europe/Budapest";
-    const $ = sel => document.querySelector(sel);
-    const fmtDate = (iso) => {
-      const d = new Date(iso);
-      const date = new Intl.DateTimeFormat('hu-HU', { weekday:'short', year:'numeric', month:'long', day:'numeric', timeZone: TZ }).format(d);
-      const time = new Intl.DateTimeFormat('hu-HU', { hour:'2-digit', minute:'2-digit', timeZone: TZ }).format(d);
-      return `${date} • ${time}`;
-    };
-    const googleCalLink = (ev) => {
-      const start = new Date(ev.datetime);
-      const end = new Date(start.getTime()+ 90*60*1000);
-      const pad = n => String(n).padStart(2,'0');
-      const toUTC = d => `${d.getUTCFullYear()}${pad(d.getUTCMonth()+1)}${pad(d.getUTCDate())}T${pad(d.getUTCHours())}${pad(d.getUTCMinutes())}00Z`;
-      const text = encodeURIComponent(`${ev.title} – ${ev.venue}`);
-      const dates = `${toUTC(start)}/${toUTC(end)}`;
-      const details = encodeURIComponent([ev.note, ev.url].filter(Boolean).join('\n'));
-      const location = encodeURIComponent([ev.venue, ev.city, ev.address].filter(Boolean).join(', '));
-      return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${text}&dates=${dates}&details=${details}&location=${location}`;
-    };
-
-    function buildCard(ev){
-      const dateTxt = fmtDate(ev.datetime);
-      return `
-        <article class="card panel">
-          <h3>${ev.title}</h3>
-          <div class="meta">
-            <div><strong>${dateTxt}</strong></div>
-            <div class="dot">${ev.venue}</div>
-            <div class="dot">${ev.city}</div>
-          </div>
-          <div class="small" style="margin-top:6px;color:var(--muted)">${ev.note}</div>
-          <div class="actions">
-            <a class="btn" href="${googleCalLink(ev)}" target="_blank" rel="noopener">➕ Google Naptár</a>
-          </div>
-        </article>`;
-    }
-
-    function render(){
-      const now = new Date();
-      const upcoming = EVENTS.filter(ev => new Date(ev.datetime) >= now).sort((a,b)=> new Date(a.datetime) - new Date(b.datetime));
-      $('#upcoming').innerHTML = upcoming.map(buildCard).join('');
-      $('#upcomingEmpty').style.display = upcoming.length ? 'none' : 'block';
-    }
-
-    // Videó kártyák és lejátszás
-    function videoCard(v){
-      return `
-        <article class="card panel video-card">
-          <div class="video-thumb" data-id="${v.id}">
-            <img src="https://img.youtube.com/vi/${v.id}/hqdefault.jpg" alt="YouTube videó előnézete" />
-            <button class="play" type="button">▶ Lejátszás</button>
-          </div>
-        </article>`;
-    }
-
-    function renderVideos(){
-      const wrap = document.getElementById('videos');
-      if(!wrap) return;
-      wrap.innerHTML = VIDEOS.map(videoCard).join('');
-      wrap.querySelectorAll('.video-thumb').forEach(box=>{
-        box.addEventListener('click', ()=>{
-          const id = box.dataset.id;
-          box.innerHTML = `<div class=\"iframe-wrap\" style=\"position:relative;padding-top:56.25%\"><iframe src=\"https://www.youtube.com/embed/${id}?autoplay=1\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen style=\"position:absolute;inset:0\"></iframe></div>`;
-        }, { once:true });
-      });
-    }
-
-    $('#year').textContent = new Date().getFullYear();
-    render();
-    renderVideos();
-  </script>
-</body>
-</html>
+/* videó lejátszás gomb színei is igazodnak */
+.video-thumb .play{
+  position:absolute;left:10px;bottom:10px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#0b0f18;border:none;border-radius:999px;
+  padding:8px 12px;font-weight:700;cursor:pointer
+}
